@@ -1,0 +1,19 @@
+{
+  "name": "bemvindoamatrixbot",
+  "version": "1.0.0",
+  "description": "https://t.me/BemVindoAMatrixv2 Bot",
+  "main": "src/index.js",
+  "author": "newmankr, anaboth",
+  "license": "MIT",
+  "scripts": {
+    "start": "node src/index.js",
+    "dev": "nodemon src/index.js"
+  },
+  "dependencies": {
+    "dotenv": "^8.2.0",
+    "telegraf": "^3.37.0"
+  },
+  "devDependencies": {
+    "nodemon": "^2.0.3"
+  }
+}
