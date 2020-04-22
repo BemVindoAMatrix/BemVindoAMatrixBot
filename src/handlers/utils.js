@@ -1,5 +1,5 @@
-const isAdmin = async (ctx) => {
-    const user = await ctx.getChatMember(ctx.message.from.id)
+const isAdmin = async (ctx, userId) => {
+    const user = await ctx.getChatMember(userId)
 
     if(user.status === 'creator' || user.status === 'administrator')
         return true

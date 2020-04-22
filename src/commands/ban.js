@@ -9,7 +9,7 @@ const banUser = async (ctx) => {
                 ? ctx.message.reply_to_message.from.first_name 
                 : ctx.message.from.first_name
 
-    if(await isAdmin(ctx)){
+    if(await isAdmin(ctx, message.from.id)){
         try{
             await ctx.telegram.kickChatMember(chatId, userId)
         
@@ -33,7 +33,7 @@ const unbanUser = async (ctx) => {
                 ? ctx.message.reply_to_message.from.first_name 
                 : ctx.message.from.first_name
 
-    if(await isAdmin(ctx)){
+    if(await isAdmin(ctx, message.from.id)){
         try{
             await ctx.telegram.unbanChatMember(chatId, userId)
         
