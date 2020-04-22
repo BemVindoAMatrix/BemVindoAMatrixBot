@@ -6,8 +6,8 @@ const { kickUser, banUser } = require('./commands/index')
 
 const bot = new Telegraf(process.env.BOT_TOKEN)
 
-bot.command('kick', kickUser())
-   .command('ban', banUser())
+bot.command('kick', (ctx) => kickUser(ctx))
+   .command('ban', (ctx) => banUser(ctx))
 
 bot.startPolling()
 

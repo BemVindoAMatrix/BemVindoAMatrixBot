@@ -1,6 +1,6 @@
 const { isAdmin } = require('./../handlers/utils')
 
-const banUser = () => async (ctx) => {
+const banUser = async (ctx) => {
     const chatId = ctx.message.chat.id
     const userId = ctx.message.reply_to_message 
                 ? ctx.message.reply_to_message.from.id 
