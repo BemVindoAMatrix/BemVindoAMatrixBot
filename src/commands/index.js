@@ -1,7 +1,10 @@
 const kickUser = require('./kick')
-const banUser = require('./ban')
+const { banUser, unbanUser } = require('./ban')
+const warnUser = require('./warn')
 
 module.exports = {
     kickUser,
-    banUser
+    banUser,
+    unbanUser,
+    warnUser
 }
