@@ -1,6 +1,8 @@
 const { isAdmin } = require('./../handlers/utils')
 
 const kickUser = async (ctx) => {
+    if(!ctx.message.reply_to_message) return
+
     const chatId = ctx.message.chat.id
     const userId = ctx.message.reply_to_message 
                 ? ctx.message.reply_to_message.from.id 
@@ -14,7 +16,7 @@ const kickUser = async (ctx) => {
             await ctx.telegram.kickChatMember(chatId, userId)
             await ctx.telegram.unbanChatMember(chatId, userId)
         
-            ctx.reply(`✅ ${userFirstName} kicked.`)
+            ctx.replyWithMarkdown(`✅ [${userFirstName}](tg://user?id=${userId}) kicked.`)
         } catch(e) {
             console.log(e)
     
