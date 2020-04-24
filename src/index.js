@@ -10,6 +10,7 @@ const {
    warnUser,
    unwarnUser
 } = require('./commands/index')
+const { filterNewMember } = require('./handlers/filters')
 
 const bot = new Telegraf(process.env.BOT_TOKEN)
 
@@ -20,6 +21,7 @@ bot.command('kick', (ctx) => kickUser(ctx, Markup))
    .action('unwarn', (ctx) => unwarnUser(ctx))
    .action('ban', (ctx) => banUser(ctx, Markup))
    .action('unban', (ctx) => unbanUser(ctx))
+   .on('new_chat_members', (ctx) => filterNewMember(ctx, Markup))
 
 bot.startPolling()
 

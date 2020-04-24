@@ -12,6 +12,7 @@
   "dependencies": {
     "dotenv": "^8.2.0",
     "mongodb": "^3.5.6",
+    "node-fetch": "^2.6.0",
     "telegraf": "^3.37.0"
   },
   "devDependencies": {
