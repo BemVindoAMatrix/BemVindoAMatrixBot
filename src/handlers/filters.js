@@ -10,7 +10,7 @@ const filterNewMember = async (ctx, Markup) => {
         })
         .then((data) => {
             if(data.ok){
-                ctx.reply(`⚠️ ${newMemberFirstName} [${newMemberId}] is a known spammer.`,
+                ctx.replyWithMarkdown(`⚠️ [${newMemberFirstName}](tg://user?id=${newMemberId}) [[${newMemberId}]] is a known spammer.`,
                     Markup.inlineKeyboard([
                         Markup.callbackButton('🚫 Ban', 'ban')
                     ])

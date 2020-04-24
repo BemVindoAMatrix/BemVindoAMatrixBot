@@ -1,6 +1,8 @@
 const { isAdmin } = require('./../handlers/utils')
 
 const banUser = async (ctx, Markup) => {
+    if(!ctx.message.reply_to_message && !ctx.update.callback_query) return
+
     const chatId = ctx.update.callback_query
                 ? ctx.update.callback_query.message.chat.id
                 : ctx.message.chat.id
@@ -18,7 +20,7 @@ const banUser = async (ctx, Markup) => {
         try{
             await ctx.telegram.kickChatMember(chatId, userId)
         
-            ctx.reply(`${userFirstName} [${userId}] banned.`,
+            ctx.replyWithMarkdown(`[${userFirstName}](tg://user?id=${userId}) [[${userId}]] banned.`,
                 Markup.inlineKeyboard([
                     Markup.callbackButton('✅ Unban', 'unban')
                 ])
@@ -37,6 +39,8 @@ const banUser = async (ctx, Markup) => {
 }
 
 const unbanUser = async (ctx) => {
+    if(!ctx.message.reply_to_message && !ctx.update.callback_query) return
+
     const chatId = ctx.update.callback_query
                 ? ctx.update.callback_query.message.chat.id
                 : ctx.message.chat.id
@@ -54,7 +58,7 @@ const unbanUser = async (ctx) => {
         try{
             await ctx.telegram.unbanChatMember(chatId, userId)
         
-            ctx.reply(`✅ ${userFirstName} unbanned.`)
+            ctx.replyWithMarkdown(`✅ [${userFirstName}](tg://user?id=${userId}) unbanned.`)
         } catch(e) {
             console.log(e)
     

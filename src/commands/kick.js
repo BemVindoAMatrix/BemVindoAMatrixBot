@@ -14,7 +14,7 @@ const kickUser = async (ctx) => {
             await ctx.telegram.kickChatMember(chatId, userId)
             await ctx.telegram.unbanChatMember(chatId, userId)
         
-            ctx.reply(`✅ ${userFirstName} kicked.`)
+            ctx.replyWithMarkdown(`✅ [${userFirstName}](tg://user?id=${userId}) kicked.`)
         } catch(e) {
             console.log(e)
     

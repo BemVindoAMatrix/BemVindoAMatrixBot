@@ -6,6 +6,8 @@ const warnUser = async (ctx, Markup) => {
     const db = await connectToDB()
     const users = await db.collection('users')
 
+    if(!ctx.message.reply_to_message) return
+
     const userId = ctx.message.reply_to_message 
                 ? ctx.message.reply_to_message.from.id 
                 : ctx.message.from.id
@@ -57,7 +59,7 @@ const warnUser = async (ctx, Markup) => {
                     totalWarns = 1
                 }
 
-                ctx.reply(`${userFirstName} [${userId}] warned for the ${totalWarns}° time (out of 3).`,
+                ctx.replyWithMarkdown(`[${userFirstName}](tg://user?id=${userId}) [[${userId}]] warned for the ${totalWarns}° time (out of 3).`,
                     Markup.inlineKeyboard([
                         Markup.callbackButton('❌ Cancel', 'unwarn')
                     ])
