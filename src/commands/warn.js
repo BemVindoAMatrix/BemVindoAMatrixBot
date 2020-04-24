@@ -2,7 +2,7 @@ const { isAdmin } = require('./../handlers/utils')
 const { connectToDB } = require('./../handlers/db')
 const { banUser } = require('./ban')
 
-const warnUser = async (ctx) => {
+const warnUser = async (ctx, Markup) => {
     const db = await connectToDB()
     const users = await db.collection('users')
 
@@ -34,11 +34,11 @@ const warnUser = async (ctx) => {
                 try {
                     await resetWarns()
 
-                    ctx.reply('Warns resetted successfully.')
+                    ctx.reply('✅ Warns resetted successfully.')
                 } catch(e) {
                     console.log(e)
 
-                    ctx.reply('Warns not resetted.')
+                    ctx.reply('🚫 Warns not resetted.')
                 }
             } else {
                 if(user) {
@@ -57,10 +57,17 @@ const warnUser = async (ctx) => {
                     totalWarns = 1
                 }
 
-                ctx.reply(`${userFirstName} warned.\nTotal warns: ${totalWarns}`)
+                ctx.reply(`${userFirstName} [${userId}] warned for the ${totalWarns}° time (out of 3).`,
+                    Markup.inlineKeyboard([
+                        Markup.callbackButton('❌ Cancel', 'unwarn')
+                    ])
+                        .oneTime()
+                        .resize()
+                        .extra()
+                )
 
                 if(totalWarns >= 3){
-                    banUser(ctx)
+                    banUser(ctx, Markup)
                     await resetWarns()
                 }
             }
@@ -74,4 +81,36 @@ const warnUser = async (ctx) => {
     }
 }
 
-module.exports = warnUser
+const unwarnUser = async (ctx) => {
+    const db = await connectToDB()
+    const users = await db.collection('users')
+
+    const userId = ctx.update.callback_query
+        ? ctx.update.callback_query.message.text.match(/.*\[(\d+)\].*/)[1]
+        : ''
+
+    const user = await users.findOne({ 'user_id': parseInt(userId) })
+    let totalWarns = user
+        ? user.total_warns
+        : ''
+
+    try{
+        if(totalWarns > 0){
+            await users.updateOne(
+                { 'user_id': parseInt(userId) },
+                { $set: { 'total_warns' : totalWarns - 1 } }
+            )
+    
+            ctx.reply('Warn removed.')
+        }
+    } catch(e) {
+        console.log(e)
+
+        ctx.reply('Sorry, I don\'t have sufficient permissions to do this.')
+    }
+}
+
+module.exports = { 
+    warnUser,
+    unwarnUser
+}
